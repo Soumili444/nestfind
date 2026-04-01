@@ -2,14 +2,15 @@ import { Star, MapPin, BadgeCheck, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Property } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+import { useFavorites } from "@/contexts/FavoritesContext";
 
 interface PropertyCardProps {
   property: Property;
 }
 
 const PropertyCard = ({ property }: PropertyCardProps) => {
-  const [liked, setLiked] = useState(false);
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const liked = isFavorite(property.id);
 
   return (
     <Link
@@ -38,7 +39,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
         <button
           onClick={(e) => {
             e.preventDefault();
-            setLiked(!liked);
+            toggleFavorite(property.id);
           }}
           className="absolute top-3 right-3 h-9 w-9 rounded-full glass flex items-center justify-center hover:scale-110 transition-transform"
         >
