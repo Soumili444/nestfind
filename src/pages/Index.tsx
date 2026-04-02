@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Building2, Users, ShieldCheck, Search, Phone, CheckCircle } from "lucide-react";
+import { ArrowRight, Building2, Users, ShieldCheck, Search, Phone, CheckCircle, FileText, Key, ClipboardList } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SearchBar from "@/components/SearchBar";
@@ -30,12 +32,29 @@ const stats = [
 ];
 
 const howItWorks = [
-  { step: "01", title: "Search", desc: "Find properties matching your budget, location, and preferences.", icon: Search, link: "/properties" },
-  { step: "02", title: "Connect", desc: "Request a callback and talk directly to the property owner.", icon: Phone, hash: "#about" },
-  { step: "03", title: "Move In", desc: "Finalize the deal, sign the agreement, and settle into your new home.", icon: CheckCircle, link: "/properties" },
+  { step: "01", title: "Search", desc: "Find properties matching your budget, location, and preferences.", icon: Search, action: "link" as const, link: "/properties" },
+  { step: "02", title: "Connect", desc: "Call or WhatsApp a property owner directly.", icon: Phone, action: "connect" as const },
+  { step: "03", title: "Move In", desc: "Finalize the deal, sign the agreement, and settle into your new home.", icon: CheckCircle, action: "checklist" as const },
+];
+
+const moveInChecklist = [
+  { icon: ClipboardList, text: "Verify property details & visit in person" },
+  { icon: FileText, text: "Sign the rental agreement" },
+  { icon: Key, text: "Pay security deposit & first month rent" },
+  { icon: CheckCircle, text: "Collect keys & move in!" },
 ];
 
 const Index = () => {
+  const [showChecklist, setShowChecklist] = useState(false);
+
+  const handleAction = (item: typeof howItWorks[number]) => {
+    if (item.action === "connect") {
+      window.open("tel:+919876543210", "_self");
+    } else if (item.action === "checklist") {
+      setShowChecklist(true);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -126,17 +145,13 @@ const Index = () => {
                   <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
                 </div>
               );
-              if (item.hash) {
-                return (
-                  <button key={item.step} onClick={() => document.querySelector(item.hash!)?.scrollIntoView({ behavior: "smooth" })}>
-                    {content}
-                  </button>
-                );
+              if (item.action === "link") {
+                return <Link key={item.step} to={item.link!}>{content}</Link>;
               }
               return (
-                <Link key={item.step} to={item.link!}>
+                <button key={item.step} onClick={() => handleAction(item)}>
                   {content}
-                </Link>
+                </button>
               );
             })}
           </div>
@@ -243,6 +258,25 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Move In Checklist Dialog */}
+      <Dialog open={showChecklist} onOpenChange={setShowChecklist}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="font-heading text-2xl">Move-In Checklist</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 mt-4">
+            {moveInChecklist.map((item, i) => (
+              <div key={i} className="flex items-center gap-4 p-3 rounded-xl bg-secondary/50">
+                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                  <item.icon className="h-5 w-5 text-primary" />
+                </div>
+                <p className="text-sm text-foreground font-medium">{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <Footer />
     </div>
