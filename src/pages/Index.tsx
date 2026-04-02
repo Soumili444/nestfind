@@ -45,6 +45,16 @@ const moveInChecklist = [
 ];
 
 const Index = () => {
+  const [showChecklist, setShowChecklist] = useState(false);
+
+  const handleAction = (item: typeof howItWorks[number]) => {
+    if (item.action === "connect") {
+      window.open("tel:+919876543210", "_self");
+    } else if (item.action === "checklist") {
+      setShowChecklist(true);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
