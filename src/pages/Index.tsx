@@ -30,9 +30,9 @@ const stats = [
 ];
 
 const howItWorks = [
-  { step: "01", title: "Search", desc: "Find properties matching your budget, location, and preferences.", icon: Search },
-  { step: "02", title: "Connect", desc: "Request a callback and talk directly to the property owner.", icon: Phone },
-  { step: "03", title: "Move In", desc: "Finalize the deal, sign the agreement, and settle into your new home.", icon: CheckCircle },
+  { step: "01", title: "Search", desc: "Find properties matching your budget, location, and preferences.", icon: Search, link: "/properties" },
+  { step: "02", title: "Connect", desc: "Request a callback and talk directly to the property owner.", icon: Phone, hash: "#about" },
+  { step: "03", title: "Move In", desc: "Finalize the deal, sign the agreement, and settle into your new home.", icon: CheckCircle, link: "/properties" },
 ];
 
 const Index = () => {
