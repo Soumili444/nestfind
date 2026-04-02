@@ -259,6 +259,25 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Move In Checklist Dialog */}
+      <Dialog open={showChecklist} onOpenChange={setShowChecklist}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="font-heading text-2xl">Move-In Checklist</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 mt-4">
+            {moveInChecklist.map((item, i) => (
+              <div key={i} className="flex items-center gap-4 p-3 rounded-xl bg-secondary/50">
+                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                  <item.icon className="h-5 w-5 text-primary" />
+                </div>
+                <p className="text-sm text-foreground font-medium">{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
