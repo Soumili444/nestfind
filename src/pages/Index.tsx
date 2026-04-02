@@ -145,17 +145,13 @@ const Index = () => {
                   <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
                 </div>
               );
-              if (item.hash) {
-                return (
-                  <button key={item.step} onClick={() => document.querySelector(item.hash!)?.scrollIntoView({ behavior: "smooth" })}>
-                    {content}
-                  </button>
-                );
+              if (item.action === "link") {
+                return <Link key={item.step} to={item.link!}>{content}</Link>;
               }
               return (
-                <Link key={item.step} to={item.link!}>
+                <button key={item.step} onClick={() => handleAction(item)}>
                   {content}
-                </Link>
+                </button>
               );
             })}
           </div>
