@@ -115,16 +115,30 @@ const Index = () => {
           <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-14">How It Works</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {howItWorks.map((item, i) => (
-              <div key={item.step} className="relative animate-slide-up" style={{ animationDelay: `${i * 0.15}s` }}>
-                <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
-                  <item.icon className="h-7 w-7 text-primary" />
+            {howItWorks.map((item, i) => {
+              const content = (
+                <div className="relative animate-slide-up cursor-pointer group" style={{ animationDelay: `${i * 0.15}s` }}>
+                  <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6 group-hover:bg-primary/20 transition-colors">
+                    <item.icon className="h-7 w-7 text-primary" />
+                  </div>
+                  <span className="text-xs font-bold text-primary/40 tracking-widest">{item.step}</span>
+                  <h3 className="font-heading text-xl font-semibold text-foreground mt-2 mb-3 group-hover:text-primary transition-colors">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
                 </div>
-                <span className="text-xs font-bold text-primary/40 tracking-widest">{item.step}</span>
-                <h3 className="font-heading text-xl font-semibold text-foreground mt-2 mb-3">{item.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
+              );
+              if (item.hash) {
+                return (
+                  <button key={item.step} onClick={() => document.querySelector(item.hash!)?.scrollIntoView({ behavior: "smooth" })}>
+                    {content}
+                  </button>
+                );
+              }
+              return (
+                <Link key={item.step} to={item.link!}>
+                  {content}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
