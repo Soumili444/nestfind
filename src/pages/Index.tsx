@@ -166,6 +166,26 @@ const Index = () => {
               />
             </div>
           </div>
+
+          {/* Team Profiles */}
+          <div className="col-span-1 lg:col-span-2 mt-16">
+            <p className="text-primary font-medium text-sm mb-2 text-center">Our Team</p>
+            <h3 className="font-heading text-2xl sm:text-3xl font-bold text-foreground text-center mb-10">Meet the Creators</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {teamMembers.map((member) => (
+                <div key={member.name} className="bg-card rounded-2xl p-5 text-center shadow-soft border border-border/50">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-24 h-24 rounded-full object-cover mx-auto mb-4 border-2 border-primary/20"
+                  />
+                  <h4 className="font-heading font-semibold text-foreground text-lg">{member.name}</h4>
+                  <p className="text-sm text-muted-foreground mt-1">{member.phone}</p>
+                  <p className="text-xs text-muted-foreground/70 mt-1">{member.education}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
