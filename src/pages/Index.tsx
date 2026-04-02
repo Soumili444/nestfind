@@ -9,6 +9,17 @@ import ReviewCard from "@/components/ReviewCard";
 import { sampleProperties, reviews } from "@/lib/data";
 import heroBg from "@/assets/hero-bg.jpg";
 import aboutImage from "@/assets/about-image.jpg";
+import teamSoumili from "@/assets/team-soumili.jpeg";
+import teamSrishti from "@/assets/team-srishti.jpeg";
+import teamUdit from "@/assets/team-udit.jpeg";
+import teamSandeep from "@/assets/team-sandeep.jpeg";
+
+const teamMembers = [
+  { name: "Soumili Das", phone: "+91 823029960", education: "B.Tech Undergraduate, CSE, KIIT University", image: teamSoumili },
+  { name: "Srishti Ganguly", phone: "+91 9569091565", education: "B.Tech Undergraduate, CSE, KIIT University", image: teamSrishti },
+  { name: "Udit Naryan Shaw", phone: "+91 8003442769", education: "B.Tech Undergraduate, CSE, KIIT University", image: teamUdit },
+  { name: "Sandeep Verma", phone: "+91 8889090068", education: "B.Tech Undergraduate, CSE, KIIT University", image: teamSandeep },
+];
 
 const featuredProperties = sampleProperties.filter((p) => p.featured);
 
