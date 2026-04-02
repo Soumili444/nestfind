@@ -31,9 +31,16 @@ const stats = [
 ];
 
 const howItWorks = [
-  { step: "01", title: "Search", desc: "Find properties matching your budget, location, and preferences.", icon: Search, link: "/properties" },
-  { step: "02", title: "Connect", desc: "Request a callback and talk directly to the property owner.", icon: Phone, hash: "#about" },
-  { step: "03", title: "Move In", desc: "Finalize the deal, sign the agreement, and settle into your new home.", icon: CheckCircle, link: "/properties" },
+  { step: "01", title: "Search", desc: "Find properties matching your budget, location, and preferences.", icon: Search, action: "link" as const, link: "/properties" },
+  { step: "02", title: "Connect", desc: "Call or WhatsApp a property owner directly.", icon: Phone, action: "connect" as const },
+  { step: "03", title: "Move In", desc: "Finalize the deal, sign the agreement, and settle into your new home.", icon: CheckCircle, action: "checklist" as const },
+];
+
+const moveInChecklist = [
+  { icon: ClipboardList, text: "Verify property details & visit in person" },
+  { icon: FileText, text: "Sign the rental agreement" },
+  { icon: Key, text: "Pay security deposit & first month rent" },
+  { icon: CheckCircle, text: "Collect keys & move in!" },
 ];
 
 const Index = () => {
