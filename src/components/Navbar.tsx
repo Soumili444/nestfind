@@ -1,19 +1,37 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState, useCallback } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, Home, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useFavorites } from "@/contexts/FavoritesContext";
 
 const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "Properties", href: "/properties" },
-  { label: "Saved", href: "/favorites" },
-  { label: "About", href: "/#about" },
+  { label: "Home", href: "/", hash: "" },
+  { label: "Properties", href: "/properties", hash: "" },
+  { label: "Saved", href: "/favorites", hash: "" },
+  { label: "About", href: "/", hash: "#about" },
 ];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleNavClick = useCallback((href: string, hash: string) => {
+    if (hash) {
+      if (location.pathname === href || location.pathname === href + "/") {
+        // Already on the page, just scroll
+        const el = document.querySelector(hash);
+        el?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        // Navigate first, then scroll after render
+        navigate(href);
+        setTimeout(() => {
+          const el = document.querySelector(hash);
+          el?.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }
+  }, [location.pathname, navigate]);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
@@ -29,17 +47,27 @@ const Navbar = () => {
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                to={link.href}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  location.pathname === link.href
-                    ? "bg-secondary text-foreground"
-                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-                }`}
-              >
-                {link.label}
-              </Link>
+              link.hash ? (
+                <button
+                  key={link.label}
+                  onClick={() => handleNavClick(link.href, link.hash)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors text-muted-foreground hover:text-foreground hover:bg-secondary/50`}
+                >
+                  {link.label}
+                </button>
+              ) : (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                    location.pathname === link.href
+                      ? "bg-secondary text-foreground"
+                      : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
             ))}
           </div>
 
@@ -66,14 +94,24 @@ const Navbar = () => {
           <div className="md:hidden mt-2 glass rounded-2xl p-4 shadow-medium animate-scale-in">
             <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  className="px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.label}
-                </Link>
+                link.hash ? (
+                  <button
+                    key={link.label}
+                    onClick={() => { handleNavClick(link.href, link.hash); setIsOpen(false); }}
+                    className="px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors text-left"
+                  >
+                    {link.label}
+                  </button>
+                ) : (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    className="px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                )
               ))}
               <hr className="my-2 border-border" />
               <Link to="/login" onClick={() => setIsOpen(false)}>
